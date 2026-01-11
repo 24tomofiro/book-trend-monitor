@@ -2,30 +2,16 @@
         <!DOCTYPE html>
         <html lang="ja">
         <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Book Trend Portal</title>
             <style>
-                :root { --accent: #4a86e8; --bg: #f8f9fa; --text: #333; }
-                body { font-family: sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
-                h1 { text-align: center; font-size: 1.6rem; color: var(--accent); margin: 20px 0 40px; font-weight: bold; }
-                .container { display: grid; gap: 20px; max-width: 1000px; margin: 0 auto; 
-                             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-                .card { background: white; padding: 25px; border-radius: 18px; 
-                         box-shadow: 0 6px 15px rgba(0,0,0,0.06); text-align: center; 
-                         border: 1px solid #eee; transition: transform 0.2s, box-shadow 0.2s; }
+                :root { --accent: #4a86e8; --bg: #f8f9fa; }
+                body { font-family: sans-serif; background: var(--bg); margin: 0; padding: 20px; }
+                h1 { text-align: center; color: var(--accent); margin: 20px 0 40px; font-weight: bold; }
+                .container { display: grid; gap: 20px; max-width: 1000px; margin: 0 auto; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+                .card { background: white; padding: 25px; border-radius: 18px; box-shadow: 0 6px 15px rgba(0,0,0,0.06); text-align: center; transition: 0.2s; }
                 .card:active { transform: scale(0.97); }
-                .card h3 { margin: 0 0 10px; font-size: 1.25rem; color: #111; }
-                .card p { color: #777; font-size: 0.95rem; margin-bottom: 22px; }
-                .btn { display: block; background: var(--accent); color: white; padding: 14px; 
-                         text-decoration: none; border-radius: 10px; font-weight: bold; font-size: 1rem; 
-                         box-shadow: 0 3px 8px rgba(74, 134, 232, 0.3); }
-                
-                @media (max-width: 480px) {
-                    body { padding: 15px; }
-                    h1 { font-size: 1.4rem; }
-                    .card { padding: 20px; border-radius: 15px; }
-                }
+                .btn { display: block; background: var(--accent); color: white; padding: 14px; text-decoration: none; border-radius: 10px; font-weight: bold; margin-top: 15px; }
             </style>
         </head>
         <body>
@@ -33,18 +19,16 @@
             <div class="container">
             <div class="card">
                 <h3>嫌われる勇気</h3>
-                <p>トレンド & 感情分析</p>
-                <a href="plots/嫌われる勇気_interactive.html" class="btn">レポートを開く</a>
+                <p>最新トレンド & 感情分析</p>
+                <a href="plots/嫌われる勇気_interactive.html" class="btn">レポートを表示</a>
             </div>
-            
             <div class="card">
                 <h3>スマホ脳</h3>
-                <p>トレンド & 感情分析</p>
-                <a href="plots/スマホ脳_interactive.html" class="btn">レポートを開く</a>
-            </div>
-            </div>
-            <footer style="margin-top:50px; color:#aaa; font-size:0.85rem; text-align:center;">
-                最終更新: 2026-01-11 03:17
+                <p>最新トレンド & 感情分析</p>
+                <a href="plots/スマホ脳_interactive.html" class="btn">レポートを表示</a>
+            </div></div>
+            <footer style="margin-top:50px; color:#aaa; font-size:0.8rem; text-align:center;">
+                最終更新: 2026-01-11 03:25
             </footer>
         </body>
         </html>
