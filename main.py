@@ -99,5 +99,8 @@ def main():
     visualizer = BookVisualizer(csv_path)
     visualizer.generate_charts()
 
+# 【追加】ポータル画面の生成
+    visualizer.generate_portal()
+
 if __name__ == "__main__":
     main()
