@@ -1,17 +1,22 @@
-name: Daily Keyword Trend Bot
+name: Daily Book Trend Monitor
 
 on:
   schedule:
-    # 1日4回 (UTC 0, 6, 12, 18時 → 日本時間 9, 15, 21, 03時)
-    - cron: '0 0,6,12,18 * * *'
-  workflow_dispatch:
+    # 1日4回自動実行 (日本時間 03:00, 09:00, 15:00, 21:00)
+    # UTC基準のため、9時間を引いた時間を設定
+    - cron: '0 18 * * *' # JST 03:00
+    - cron: '0 0 * * *'  # JST 09:00
+    - cron: '0 6 * * *'  # JST 15:00
+    - cron: '0 12 * * *' # JST 21:00
+  workflow_dispatch: # ボタン一つで手動実行も可能にする設定
+
+permissions:
+  contents: write # GitHubに書き込む（プッシュする）ための権限
 
 jobs:
-  run-bot:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write # 実行結果をリポジトリに保存するために必要
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -19,13 +24,16 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Run logic
+      - name: Run Trend Monitor
         env:
+          # GitHub SecretsからAPIキーを読み込む
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
           GOOGLE_CX: ${{ secrets.GOOGLE_CX }}
         run: python main.py
@@ -34,6 +42,6 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add data/ plots/
-          git commit -m "Update trend data [skip ci]" || echo "No changes to commit"
-          git push
+          git add data/processed/daily_stats.csv plots/*.html index.html
+          # 変更がある場合のみコミット
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: 📈 トレンドデータ自動更新 [skip ci]" && git push)
