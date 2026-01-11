@@ -1,0 +1,4 @@
+.env
+__pycache__/
+.vscode/
+data/processed/daily_stats.csv  # 自分のデータのみ管理したい場合は除外

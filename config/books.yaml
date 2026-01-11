@@ -1,0 +1,7 @@
+books:
+  - title: "嫌われる勇気"
+    keywords: ["嫌われる勇気", "アドラー心理学"]
+    exclude: ["ドラマ", "映画"]
+  - title: "スマホ脳"
+    keywords: ["スマホ脳", "アンデシュ・ハンセン"]
+    exclude: []

@@ -1,0 +1,8 @@
+requests
+pyyaml
+pandas
+pytz
+python-dotenv
+matplotlib
+japanize-matplotlib
+plotly
