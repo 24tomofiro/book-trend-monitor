@@ -1,8 +1,7 @@
-requests
-pyyaml
 pandas
+plotly
+PyYAML
 pytz
 python-dotenv
-matplotlib
-japanize-matplotlib
-plotly
+requests
+beautifulsoup4

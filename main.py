@@ -22,6 +22,7 @@ def get_time_slot(hour):
 
 def main():
     # 1. 初期設定と環境変数の読み込み
+    # GitHub Actions等のサーバー環境でも日本時間を正確に維持
     jst = pytz.timezone('Asia/Tokyo')
     now = datetime.now(jst)
     print(f"[{now.isoformat()}] Starting Book Trend Monitor...")
@@ -52,36 +53,42 @@ def main():
     time_slot = get_time_slot(now.hour)
     results = []
 
-    # 4. データ収集ループ
+    # 4. データ収集ループ (Reach/広がり と Depth/深さ の両立)
     print(f"🔎 Scanning for {len(config['books'])} books (Slot: {time_slot})...")
     
     for book in config['books']:
         title = book['title']
-        # 除外ワードがある場合は、検索クエリに「-ワード」を追加
+        # 相対的な抽出割合（上位xx%）を取得。設定がない場合は100%（全件）を表示
+        percentile = book.get('top_percentile', 100)
+        
+        # 検索クエリの構築
         exclude_query = " ".join([f"-{w}" for w in book.get('exclude', [])])
-        # キーワードをORで結合し、除外クエリを付与
         keyword = "(" + " OR ".join(book['keywords']) + ") " + exclude_query
         
-        print(f"  - Processing: {title}")
+        print(f"  - Processing: {title} (Target: Top {percentile}%)")
         
-        # Web調査 (一般サイト)
-        web_count, web_links, web_sent = crawler.get_data(keyword)
-        # X調査 (site:x.com 限定)
-        x_count, x_links, x_sent = crawler.get_data(keyword, site="x.com")
+        # Web調査 (広がり/Reach の件数のみ利用)
+        web_count, _ = crawler.get_data(keyword)
         
-        # 結果をリストに追加
+        # X調査 (深さ/Depth を含めた URL|スコア のリストを取得)
+        x_count, x_links_with_scores = crawler.get_data(
+            keyword, 
+            site="x.com", 
+            top_percentile=percentile
+        )
+        
         results.append({
             "date": now.strftime("%Y-%m-%d"),
             "time_slot": time_slot,
             "book_title": title,
             "web_count": web_count,
             "x_count": x_count,
-            "sentiment": round((web_sent + x_sent) / 2, 2),
-            # Xのリンクを優先し、なければWebのリンクを保存
-            "top_links": ",".join(x_links if x_links else web_links)
+            "sentiment": 0.5, # 必要に応じて将来的に感情分析を追加可能
+            # "url|score" 形式で保存し、Visualizer側で数値を分離表示する
+            "top_links": ",".join(x_links_with_scores) if x_links_with_scores else "なし"
         })
 
-    # 5. CSV保存 (データ蓄積)
+    # 5. CSV保存 (データの永続化と重複排除)
     df_new = pd.DataFrame(results)
     csv_path = "data/processed/daily_stats.csv"
     os.makedirs(os.path.dirname(csv_path), exist_ok=True)
@@ -98,23 +105,21 @@ def main():
         df_final = df_new
         print(f"🆕 Creating new CSV at {csv_path}")
     
-    # 重複排除: 同一の日付・時間帯・書籍があれば最新（last）を保持
+    # 同一の日付・時間帯・書籍があれば最新の実行結果を保持
     if not df_final.empty:
         df_final.drop_duplicates(subset=['date', 'time_slot', 'book_title'], keep='last', inplace=True)
-        # 日時順にソートしておくと管理が楽
+        # 時系列順にソートして保存
         df_final.sort_values(by=['date', 'time_slot'], ascending=True, inplace=True)
       
     df_final.to_csv(csv_path, index=False, encoding="utf-8-sig")
     print(f"✅ Successfully updated {csv_path}")
 
-    # 6. 可視化処理
-    print("📊 Generating charts...")
+    # 6. 可視化処理 (ZenGakuTVブランドのデザイン適用)
+    print("📊 Generating charts and portal...")
     visualizer = BookVisualizer(csv_path)
     
-    # 各書籍の個別レポートを生成
+    # 各書籍の個別レポートとポータル画面を生成
     visualizer.generate_charts()
-    
-    # 全体をまとめるポータル画面 (index.html) を生成
     visualizer.generate_portal()
     
     print(f"✨ All tasks completed at {datetime.now(jst).strftime('%H:%M:%S')}")

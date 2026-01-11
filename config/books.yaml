@@ -1,7 +1,7 @@
 books:
   - title: "嫌われる勇気"
     keywords: ["嫌われる勇気", "アドラー心理学"]
-    exclude: ["ドラマ", "映画"]
+    top_percentile: 20  # 上位20%（10件中、スコアの高い2件）を表示
   - title: "スマホ脳"
     keywords: ["スマホ脳", "アンデシュ・ハンセン"]
-    exclude: []
+    top_percentile: 30  # 上位30%を表示

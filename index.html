@@ -3,32 +3,22 @@
         <html lang="ja">
         <head>
             <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Book Trend Portal</title>
+            <title>Portal</title>
             <style>
                 :root { --accent: #4a86e8; --bg: #f8f9fa; }
                 body { font-family: sans-serif; background: var(--bg); margin: 0; padding: 20px; }
-                h1 { text-align: center; color: var(--accent); margin: 20px 0 40px; font-weight: bold; }
+                h1 { text-align: center; color: var(--accent); margin: 20px 0 40px; }
                 .container { display: grid; gap: 20px; max-width: 1000px; margin: 0 auto; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-                .card { background: white; padding: 25px; border-radius: 18px; box-shadow: 0 6px 15px rgba(0,0,0,0.06); text-align: center; transition: 0.2s; }
-                .card:active { transform: scale(0.97); }
-                .btn { display: block; background: var(--accent); color: white; padding: 14px; text-decoration: none; border-radius: 10px; font-weight: bold; margin-top: 15px; }
+                .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: center; transition: 0.3s; }
+                .card:active { transform: scale(0.98); }
+                .btn { display: block; background: var(--accent); color: white; padding: 14px; text-decoration: none; border-radius: 12px; font-weight: bold; margin-top: 15px; }
             </style>
         </head>
         <body>
-            <h1>📚 書籍トレンド監視ポータル</h1>
-            <div class="container">
-            <div class="card">
-                <h3>嫌われる勇気</h3>
-                <p>最新トレンド & 感情分析</p>
-                <a href="plots/嫌われる勇気_interactive.html" class="btn">レポートを表示</a>
-            </div>
-            <div class="card">
-                <h3>スマホ脳</h3>
-                <p>最新トレンド & 感情分析</p>
-                <a href="plots/スマホ脳_interactive.html" class="btn">レポートを表示</a>
-            </div></div>
+            <h1>📚 トレンド監視ポータル</h1>
+            <div class="container"><div class="card"><h3>嫌われる勇気</h3><p>最新トレンド分析</p><a href="plots/嫌われる勇気_interactive.html" class="btn">レポートを表示</a></div><div class="card"><h3>スマホ脳</h3><p>最新トレンド分析</p><a href="plots/スマホ脳_interactive.html" class="btn">レポートを表示</a></div></div>
             <footer style="margin-top:50px; color:#aaa; font-size:0.8rem; text-align:center;">
-                最終更新: 2026-01-11 03:25
+                最終更新: 2026-01-11 14:33
             </footer>
         </body>
         </html>
